@@ -1,11 +1,19 @@
 # WavShark
 
-## Build
+## Compile from source
 
-``` sh
+Clone the source
+```sh
 git clone https://github.com/pershin/wavshark.git
-cd wavshark
-./autogen.sh
+```
+
+Generate the configure script
+```sh
+cd wavshark && ./autogen.sh
+```
+
+Configure and build
+```sh
 ./configure
 make
 ```
