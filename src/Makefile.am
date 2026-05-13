@@ -1,2 +1,2 @@
 bin_PROGRAMS = wavshark
-wavshark_SOURCES = wavshark.c
+wavshark_SOURCES = wavshark.c wav.c
