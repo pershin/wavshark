@@ -36,3 +36,12 @@ cleanup:
 
   return NULL;
 }
+
+void wav_close(wav_handle *handle) {
+  if (NULL != handle) {
+    if (NULL != handle->stream)
+      fclose(handle->stream);
+
+    free(handle);
+  }
+}

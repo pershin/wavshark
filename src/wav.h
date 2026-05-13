@@ -10,6 +10,7 @@ struct wav_handle_struct;
 typedef struct wav_handle_struct wav_handle;
 
 wav_handle *wav_open(const char *filename);
+void wav_close(wav_handle *handle);
 
 #ifdef __cplusplus
 }
