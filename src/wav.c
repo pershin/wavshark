@@ -7,6 +7,7 @@
 
 struct wav_handle_struct {
   FILE *stream;
+  long offset;
   uint32_t size;
 };
 
@@ -62,6 +63,27 @@ cleanup:
   return NULL;
 }
 
+wav_errors wav_get_format(wav_handle *handle, wav_format *format) {
+  wav_chunk chunk = {0};
+
+  if (NULL == handle || NULL == format)
+    return WAV_ERROR;
+
+  if (wav_find_chunk(handle->stream, FMT_MARKER, &chunk) == false)
+    return WAV_ERROR;
+
+  if (sizeof(wav_format) > chunk.size)
+    return WAV_ERROR;
+
+  if (fread(format, sizeof(wav_format), 1, handle->stream) != 1)
+    return WAV_ERROR;
+
+  if (fseek(handle->stream, handle->offset, SEEK_SET) != 0)
+    return WAV_ERROR;
+
+  return WAV_OK;
+}
+
 void wav_close(wav_handle *handle) {
   if (NULL != handle) {
     if (NULL != handle->stream)
@@ -113,6 +135,7 @@ static bool wav_read_header(wav_handle *handle) {
   if (wav_find_chunk(handle->stream, DATA_MARKER, &chunk) == false)
     return false;
 
+  handle->offset = ftell(handle->stream);
   handle->size = chunk.size;
 
   return true;
