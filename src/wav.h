@@ -28,6 +28,7 @@ typedef enum { WAV_ERROR = -1, WAV_OK = 0 } wav_errors;
 
 wav_handle *wav_open(const char *filename);
 wav_errors wav_get_format(wav_handle *handle, wav_format *format);
+size_t wav_read(wav_handle *handle, void *buffer, size_t size);
 void wav_close(wav_handle *handle);
 
 #ifdef __cplusplus

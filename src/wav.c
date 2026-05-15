@@ -86,6 +86,30 @@ wav_errors wav_get_format(wav_handle *handle, wav_format *format) {
   return WAV_OK;
 }
 
+size_t wav_read(wav_handle *handle, void *buffer, size_t size) {
+  size_t remaining = 0;
+  size_t to_read = 0;
+  size_t numread = 0;
+
+  if (NULL == handle || NULL == buffer)
+    return 0;
+
+  /* End of the chunk */
+  if (handle->position >= handle->size)
+    return 0;
+
+  remaining = handle->size - handle->position;
+
+  /* Limit reading */
+  to_read = size < remaining ? size : remaining;
+
+  numread = fread(buffer, 1, to_read, handle->stream);
+
+  handle->position += numread;
+
+  return numread;
+}
+
 void wav_close(wav_handle *handle) {
   if (NULL != handle) {
     if (NULL != handle->stream)
