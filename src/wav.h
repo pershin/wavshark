@@ -1,6 +1,7 @@
 #ifndef WAV_H
 #define WAV_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
